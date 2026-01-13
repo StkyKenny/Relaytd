@@ -44,6 +44,8 @@ public class JWTService {
     private final JwtEncoder jwtEncoder;
     private final JwtDecoder jwtDecoder;
 
+    private final int refreshTokenExpirationMinutes = 60 * 24 * 7;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -101,7 +103,7 @@ public class JWTService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(60, ChronoUnit.MINUTES))
+                .expiresAt(now.plus(refreshTokenExpirationMinutes, ChronoUnit.MINUTES))
                 .subject(authentificationService.fetchDBUsernameFromAuth(authentication))
                 .claim("roles", createRoles(authentication))
                 .claim(jwtValidationKeyName, validationKey)
@@ -117,7 +119,7 @@ public class JWTService {
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .maxAge(Duration.ofMinutes(5))
+                .maxAge(Duration.ofSeconds(20))
                 .sameSite("None") // or "Strict" or "None" or "Lax"
                 .build();
     }
@@ -127,7 +129,7 @@ public class JWTService {
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .maxAge(Duration.ofMinutes(60 * 24 * 7))
+                .maxAge(Duration.ofMinutes(refreshTokenExpirationMinutes))
                 .sameSite("None") // or "Strict" or "None" or "Lax"
                 .build();
     }
