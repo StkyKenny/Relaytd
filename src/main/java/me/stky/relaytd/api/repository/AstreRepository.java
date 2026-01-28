@@ -12,7 +12,13 @@ import java.util.List;
 @Repository
 public interface AstreRepository extends JpaRepository<Astre, AstreID> {
 
+
+    //
+
     @Query("SELECT a FROM Astre a WHERE a.astreID.type = :type")
-    List<Astre> getAllByTopic(@Param("type") String type);
+    List<Astre> findByType(@Param("type") String type);
+
+    @Query("SELECT a FROM Astre a WHERE a.astreID.name = :name")
+    List<Astre> findByName(@Param("name") String name);
 }
 

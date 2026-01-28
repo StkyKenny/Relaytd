@@ -153,7 +153,7 @@ public class AstreServiceImpl implements AstreService {
     private Astre convertToEntity(AstreDTO astreDTO) {
 
         Astre astre = new Astre(astreDTO.astreID(),
-                astreDTO.subname(), astreDTO.tags(), astreDTO.link(), astreDTO.description(), astreDTO.parent(), astreDTO.id(),
+                astreDTO.subname(), astreDTO.tags(), astreDTO.excluded_tags(), astreDTO.link(), astreDTO.description(), astreDTO.parentAstreID(), astreDTO.parent(), astreDTO.id(),
                 LocalDate.now(), LocalDate.now(), astreDTO.fromBefore());
 
         if (astreDTO.fromBefore() == null) {

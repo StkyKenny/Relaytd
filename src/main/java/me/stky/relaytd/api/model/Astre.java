@@ -1,9 +1,7 @@
 package me.stky.relaytd.api.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -24,9 +22,19 @@ public class Astre {
 
     private String subname;
     private String tags;
+    private String excluded_tags;
     private String link;
     private String description;
-    private String parent;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "type", column = @Column(name = "parent_type")),
+            @AttributeOverride(name = "subtype", column = @Column(name = "parent_subtype")),
+            @AttributeOverride(name = "name", column = @Column(name = "parent_name")),
+    })
+    private AstreID parentAstreID;
+    private String parent; // Older implementation
+
     private String id;
     @Schema(hidden = true)
     private LocalDate date_added;
@@ -42,6 +50,6 @@ public class Astre {
     public Astre clone() {
         return new Astre(
                 new AstreID(astreID.getType(), astreID.getSubtype(), astreID.getName()),
-                subname, tags, link, description, parent, id, date_added, last_modified, from_before);
+                subname, tags, excluded_tags, link, description, parentAstreID, parent, id, date_added, last_modified, from_before);
     }
 }

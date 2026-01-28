@@ -12,8 +12,10 @@ public record AstreDTO(
 
         String subname,
         String tags,
+        String excluded_tags,
         String link,
         String description,
+        AstreID parentAstreID,
         String parent,
         String id,
 
