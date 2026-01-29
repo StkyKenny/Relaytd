@@ -220,7 +220,8 @@ public class AstreServiceTest {
 
     private Astre createAstre(int number) {
         return new Astre(createAstreID(number), "subname",
-                "tag1,tag2", "link", "description", "no-parent", "id",
+                "tag1,tag2", "excludedtags", "link", "description",
+                null, "no-parent", "id",
                 LocalDate.now(), LocalDate.now(), Boolean.FALSE);
     }
 
