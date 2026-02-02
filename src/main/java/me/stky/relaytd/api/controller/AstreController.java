@@ -1,15 +1,13 @@
 package me.stky.relaytd.api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import me.stky.relaytd.api.model.Astre;
-import me.stky.relaytd.api.model.AstreDTO;
-import me.stky.relaytd.api.model.AstreID;
-import me.stky.relaytd.api.model.UpdateAstreIDRequest;
+import me.stky.relaytd.api.model.*;
 import me.stky.relaytd.api.service.AstreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +17,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 @RestController
 @SecurityRequirement(name = "BearerAuthentication")
@@ -80,6 +81,24 @@ public class AstreController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
+    @Operation(summary = "Get all Astres and a list mapping all astreID to their children", description = "")
+    @GetMapping("/astreslinks")
+    public ResponseEntity<AstreLinksResponse> getAstresAndLinks() {
+
+        List<Astre> astres = astreService.getAllAstre();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ConcurrentMap<AstreID, List<Astre>> childrenMap = astres.parallelStream()
+                .filter(astre -> astre.getParentAstreID() != null)
+                .filter(astre -> Objects.equals(astre.getAstreID().getType(), "topic"))
+                .collect(Collectors.groupingByConcurrent(Astre::getParentAstreID));
+
+
+        List<AstreChildren> childrenList = childrenMap.entrySet().parallelStream().map(entry -> new AstreChildren(entry.getKey(), entry.getValue().stream().map(Astre::getAstreID).toList())).toList();
+        return ResponseEntity.ok(new AstreLinksResponse(astres, childrenList));
+
+    }
     /*
     // This method is kept for archiving purpose : Using Path Variable
 
