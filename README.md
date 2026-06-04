@@ -4,7 +4,7 @@
 <img src=".github/preview/relaytd_banner_preview_0.png" alt="Relaytd Banner" title="Relaytd"/>
 
 (Back-end)  
-<> See Front-End ~~and usage~~ at [Overlaytd](https://github.com/Stickykenny/Overlaytd) <>
+<> See Front-End ~~and usage~~ at [Overlaytd](https://github.com/StkyKenny/Overlaytd) <>
 
 Web-application to centralize my own interests
 
@@ -85,5 +85,5 @@ Current shared (not updated): [Todo](TODO.md)
 
 *I understand that some of the technologies used might be overkill for a project like this, but it's a learning and
 testing project where I'm exploring how to configure and work with various tools.*  
-See Linked UI : https://github.com/Stickykenny/Overlaytd  
-Originated from this side-project : https://github.com/Stickykenny/Playground/tree/main/relaytd 
+See Linked UI : https://github.com/StkyKenny/Overlaytd  
+Originated from this side-project : https://github.com/StkyKenny/Playground/tree/main/relaytd 
