@@ -1,6 +1,5 @@
 package me.stky.relaytd.api.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.Cookie;
@@ -87,7 +86,6 @@ public class AstreController {
     public ResponseEntity<AstreLinksResponse> getAstresAndLinks() {
 
         List<Astre> astres = astreService.getAllAstre();
-        ObjectMapper objectMapper = new ObjectMapper();
 
         ConcurrentMap<AstreID, List<Astre>> childrenMap = astres.parallelStream()
                 .filter(astre -> astre.getParentAstreID() != null)

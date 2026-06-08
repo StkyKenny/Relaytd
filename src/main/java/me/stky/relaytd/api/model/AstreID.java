@@ -16,7 +16,6 @@ public class AstreID {
     @NotNull
     @Column(name = "type")
     private String type;
-    @NotNull
     @Column(name = "subtype")
     private String subtype;
     @NotNull

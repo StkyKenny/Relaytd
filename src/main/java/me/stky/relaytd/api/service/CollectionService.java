@@ -17,4 +17,5 @@ public interface CollectionService {
 
     Optional<CollectionEntry> saveCollectionEntry(CollectionEntry entry, AstreID foreignKeyEntity);
 
+    List<CollectionEntry> getAll();
 }

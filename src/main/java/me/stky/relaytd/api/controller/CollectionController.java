@@ -10,7 +10,6 @@ import me.stky.relaytd.api.service.CollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +22,6 @@ public class CollectionController {
     @Autowired
     private CollectionService collectionService;
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
     @Operation(summary = "", description = "")
     @PostMapping("/getCollectionFromName")
     public ResponseEntity<List<CollectionEntry>> getCollectionFromName(@RequestBody String collection) {
@@ -31,7 +29,6 @@ public class CollectionController {
     }
 
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
     @Operation(summary = "", description = "")
     @PostMapping("/getCollection")
     public ResponseEntity<List<CollectionEntry>> getCollection(@Valid @RequestBody AstreID astreID) {
@@ -39,21 +36,25 @@ public class CollectionController {
     }
 
 
-    @PreAuthorize("hasAuthority('ROLE_USER')") // TODO : Change this in prod
     @Operation(summary = "", description = "")
-    @PostMapping("/astre")
-    public ResponseEntity<CollectionEntry> saveAstre(@Valid @RequestBody CollectionEntry entry) {
-        return collectionService.saveCollectionEntry(entry, entry.getAstre().getAstreID())
+    @PostMapping("/newEntry")
+    public ResponseEntity<CollectionEntry> saveCollectionEntry(@Valid @RequestBody CollectionEntry entry) {
+        return collectionService.saveCollectionEntry(entry, entry.getAstreID())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
     @Operation(summary = "", description = "")
     @PutMapping("/changeAstreSource")
-    public ResponseEntity<List<CollectionEntry>> changeAstreSource(@Valid @RequestBody UpdateAstreIDRequest updateAstreIDRequest) {
+    public ResponseEntity<List<CollectionEntry>> changeCollectionSource(@Valid @RequestBody UpdateAstreIDRequest updateAstreIDRequest) {
         return ResponseEntity.ok(collectionService.getFromSource(updateAstreIDRequest.getNewID()));
     }
 
+    //@PreAuthorize("hasAuthority('ROLE_USER')")
+    @Operation(summary = "", description = "")
+    @GetMapping("/getAll")
+    public ResponseEntity<List<CollectionEntry>> getAll() {
+        return ResponseEntity.ok(collectionService.getAll());
+    }
 }

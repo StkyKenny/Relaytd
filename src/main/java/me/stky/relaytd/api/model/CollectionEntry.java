@@ -1,7 +1,9 @@
 package me.stky.relaytd.api.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -12,30 +14,23 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @EqualsAndHashCode
-@IdClass(CollectionEntryID.class)
 @Table(name = "collections")
 public class CollectionEntry {
 
-    @Id
-    @NotNull
-    private String id;
+    @EmbeddedId
+    private CollectionEntryID entryID;
 
-    @Id
-    @NotNull
-    private String collection;
-
-    @Id
-    @NotNull
-    private String variant;
-
-    @NotNull
+    /*@NotNull
     @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "type", referencedColumnName = "type"),
             @JoinColumn(name = "subtype", referencedColumnName = "subtype"),
             @JoinColumn(name = "name", referencedColumnName = "name")
     })
-    private Astre astre;
+    private AstreID astreID;*/
+
+    @Embedded
+    private AstreID astreID;
 
     private String qty;
     private String description;

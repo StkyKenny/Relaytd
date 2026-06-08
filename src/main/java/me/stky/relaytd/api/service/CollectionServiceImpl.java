@@ -29,7 +29,7 @@ public class CollectionServiceImpl implements CollectionService {
 
     @Override
     public List<CollectionEntry> getCollectionFromName(String collection) {
-        return collectionRepository.findByName(collection);
+        return collectionRepository.findByCollection(collection);
     }
 
     @Override
@@ -61,13 +61,21 @@ public class CollectionServiceImpl implements CollectionService {
     }*/
 
     @Override
+    public List<CollectionEntry> getAll() {
+        return collectionRepository.findAll();
+
+    }
+
+    @Override
     public Optional<CollectionEntry> saveCollectionEntry(CollectionEntry entry, AstreID foreignKeyEntity) {
 
-        CollectionEntryID id = new CollectionEntryID(entry.getId(), entry.getCollection(), entry.getVariant());
+        System.out.println(entry);
+        CollectionEntryID id = new CollectionEntryID(entry.getEntryID().getId(), entry.getEntryID().getCollection(), entry.getEntryID().getVariant());
         if (collectionRepository.findById(id).isEmpty()) {
-            Astre astreRef = entityManager.getReference(Astre.class, foreignKeyEntity);
+            //AstreID astreRef = entityManager.getReference(AstreID.class, foreignKeyEntity);
+            Astre astre = entityManager.find(Astre.class, foreignKeyEntity);
 
-            entry.setAstre(astreRef);
+            entry.setAstreID(astre.getAstreID());
 
             return Optional.of(collectionRepository.save(entry));
         }
