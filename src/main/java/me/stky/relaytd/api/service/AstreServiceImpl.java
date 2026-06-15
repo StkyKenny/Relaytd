@@ -80,6 +80,7 @@ public class AstreServiceImpl implements AstreService {
         return Optional.empty();
     }
 
+
     @Override
     public Optional<Astre> updateAstre(AstreDTO astreDTO) {
         Optional<Astre> optAstre = astreRepository.findById(astreDTO.astreID());
@@ -87,6 +88,12 @@ public class AstreServiceImpl implements AstreService {
             return saveAstre(createOrUpdateTimestamps(convertToEntity(astreDTO)));
         }
         Astre astre = createOrUpdateTimestamps(convertToEntity(astreDTO));
+        return Optional.of(astreRepository.save(astre));
+
+    }
+
+    @Override
+    public Optional<Astre> updateAstreWithoutTimestamp(Astre astre) {
         return Optional.of(astreRepository.save(astre));
 
     }

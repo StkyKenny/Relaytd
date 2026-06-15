@@ -19,6 +19,8 @@ public interface AstreService {
 
     Optional<Astre> updateAstre(AstreDTO astreDTO);
 
+    Optional<Astre> updateAstreWithoutTimestamp(Astre astre);
+
     boolean deleteAstre(AstreID astreID);
 
     Optional<Astre> upsertAstre(AstreDTO astreDTO);
