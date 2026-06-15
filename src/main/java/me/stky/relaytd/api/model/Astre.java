@@ -2,7 +2,6 @@ package me.stky.relaytd.api.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -16,7 +15,6 @@ import java.time.LocalDate;
 @Table(name = "connections")
 public class Astre {
 
-    @NotNull
     @EmbeddedId
     private AstreID astreID;
 
@@ -48,8 +46,12 @@ public class Astre {
      * @return a deep-copy of the current Astre
      */
     public Astre clone() {
+        return cloneWithNewID(new AstreID(astreID.getType(), astreID.getSubtype(), astreID.getName()));
+    }
+
+    public Astre cloneWithNewID(AstreID newID) {
         return new Astre(
-                new AstreID(astreID.getType(), astreID.getSubtype(), astreID.getName()),
+                newID,
                 subname, tags, excluded_tags, link, description, parentAstreID, parent, id, date_added, last_modified, from_before);
     }
 }
