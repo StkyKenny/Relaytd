@@ -107,8 +107,9 @@ public class LoginController {
 
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
-                System.out.println(" cookie: " + cookie.getName() + " = " + cookie.getValue());
+
                 if (jwtRefreshName.equals(cookie.getName()) && jwtService.validateCookie(cookie)) {
+                    System.out.println(" cookie: " + cookie.getName() + " = " + cookie.getValue());
 
                     // Extract data from Refresh Token
                     Jwt refreshJwt = jwtDecoder.decode(cookie.getValue());
