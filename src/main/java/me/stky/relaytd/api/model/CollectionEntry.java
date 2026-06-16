@@ -36,6 +36,7 @@ public class CollectionEntry {
 
     @PrePersist
     @PreUpdate
+    @PreRemove
     private void normalize() {
         this.setEntryID(new CollectionEntryID(entryID.getId().trim(), entryID.getCollection().trim(), entryID.getVariant().trim()));
     }

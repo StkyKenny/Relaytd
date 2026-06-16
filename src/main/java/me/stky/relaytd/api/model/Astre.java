@@ -58,6 +58,7 @@ public class Astre {
 
     @PrePersist
     @PreUpdate
+    @PreRemove
     private void normalize() {
         this.setAstreID(new AstreID(astreID.getType().trim(), astreID.getSubtype().trim(), astreID.getName().trim()));
     }
