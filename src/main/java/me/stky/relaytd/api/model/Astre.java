@@ -54,4 +54,11 @@ public class Astre {
                 newID,
                 subname, tags, excluded_tags, link, description, parentAstreID, parent, id, date_added, last_modified, from_before);
     }
+
+
+    @PrePersist
+    @PreUpdate
+    private void normalize() {
+        this.setAstreID(new AstreID(astreID.getType().trim(), astreID.getSubtype().trim(), astreID.getName().trim()));
+    }
 }

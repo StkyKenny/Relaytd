@@ -1,9 +1,6 @@
 package me.stky.relaytd.api.model;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -37,4 +34,9 @@ public class CollectionEntry {
     private String parent;
     private LocalDate acquisition_date;
 
+    @PrePersist
+    @PreUpdate
+    private void normalize() {
+        this.setEntryID(new CollectionEntryID(entryID.getId().trim(), entryID.getCollection().trim(), entryID.getVariant().trim()));
+    }
 }
