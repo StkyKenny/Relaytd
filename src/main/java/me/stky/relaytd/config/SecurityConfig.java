@@ -128,10 +128,16 @@ public class SecurityConfig {
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                         .requestMatchers("/auth/**", "/logout", "/resources/**", "/static/**", "/css/**").permitAll()
                         .requestMatchers("/test/**").permitAll()
-                        .anyRequest().authenticated())
+                        //.anyRequest().authenticated())
+                        .anyRequest().permitAll())
+
 
                 .addFilterBefore(jwtAuthFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
-                .oauth2Login(oauth -> oauth.successHandler(jwtOAuthLoginSuccessHandler(jwtService)))
+                .oauth2Login(oauth -> oauth.successHandler(jwtOAuthLoginSuccessHandler(jwtService)).failureHandler((request, response, exception) -> {
+                    exception.printStackTrace();
+                    response.sendRedirect("http://localhost:4200/login?error");
+                    System.out.println(exception.getMessage());
+                }))
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults())) // Contains protected ressources // incompatible with formlogin
                 // Authentification server : provide ID : ex : Github, FB, Google
                 // Client Server is still Spring Boot - The Frontend calls the backend that ask the auth

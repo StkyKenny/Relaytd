@@ -186,11 +186,15 @@ public class LoginController {
         requestDetails.put("requestHeaders", spliterator.collect(Collectors.joining(" || ")));
         details.put("requests", requestDetails);
 
-        details.put("name", authentication.getName());
-        details.put("autorization", authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" -- ")));
-        details.put("principal", authentication.getPrincipal().toString());
 
-        details.put("authentification", authentificationService.getUserInfo(authentication));
+        if (authentication != null) {
+
+            details.put("name", authentication.getName());
+            details.put("autorization", authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" -- ")));
+            details.put("principal", authentication.getPrincipal().toString());
+            details.put("authentification", authentificationService.getUserInfo(authentication));
+        }
+
         return ResponseEntity.ok(details);
 
     }

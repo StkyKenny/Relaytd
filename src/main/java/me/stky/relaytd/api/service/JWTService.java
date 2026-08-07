@@ -119,7 +119,7 @@ public class JWTService {
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .maxAge(Duration.ofSeconds(20))
+                .maxAge(Duration.ofMinutes(30))
                 .sameSite("None") // or "Strict" or "None" or "Lax"
                 .build();
     }
